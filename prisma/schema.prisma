@@ -15,20 +15,27 @@ enum Role {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  password  String
-  phone     String
-  address   String?
-  role      Role      @default(USER)
-  firstName String
-  lastName  String
-  services  Service[]
-  bookings  Booking[]
-  cart      Cart[]
-  reviews   Reviews[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id                 String    @id @default(uuid())
+  email              String    @unique
+  password           String
+  phone              String
+  address            String?
+  role               Role      @default(USER)
+  firstName          String
+  lastName           String
+  profileImage       String?
+  phoneVeified       DateTime?
+  emailVerified      DateTime?
+  phoneOTP           Int?
+  emailOTP           Int?
+  phoneOTPExpiration DateTime?
+  emailOTPExpiration DateTime?
+  services           Service[]
+  bookings           Booking[]
+  cart               Cart[]
+  reviews            Reviews[]
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 }
 
 model Category {
@@ -53,9 +60,9 @@ model Service {
   cartItem    CartItem[]
   reviews     Reviews[]
   category    Category   @relation(fields: [categoryId], references: [id])
-  admin User @relation(fields: [adminId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  admin       User       @relation(fields: [adminId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Slot {

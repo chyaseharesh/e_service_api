@@ -5,9 +5,20 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Hash password for users
-  const hashedPassword = await bcrypt.hash('password123', 10);
+  const hashedPassword = await bcrypt.hash('hary123', 10);
 
   // Create users
+  const superadmin = await prisma.user.create({
+    data: {
+      email: 'hary@gmail.com',
+      password: hashedPassword,
+      phone: '1234567890',
+      firstName: 'Super',
+      lastName: 'Admin',
+      role: Role.SUPERADMIN,
+    },
+  });
+
   const admin = await prisma.user.create({
     data: {
       email: 'admin@example.com',
