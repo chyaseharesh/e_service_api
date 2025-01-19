@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { loginSchema } from "../utils/validators/authValidator.js";
 
 const prisma = new PrismaClient();
 
@@ -8,6 +9,15 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1h";
 
 export const login = async (req, res) => {
+  const validated = loginSchema.safeParse(req.body);
+  if (!validated.success) {
+    return res.status(400).json({
+      error: validated.error.errors.map((e) => ({
+        message: e.message,
+        field: e.path
+      })),
+    });
+  }
   const { email, password } = req.body;
 
   try {

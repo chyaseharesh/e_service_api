@@ -15,3 +15,12 @@ app.listen(PORT, () => {
 //import routes
 import userRoutes from './routes/userRoutes.js';  // Use .js extension
 app.use("/api/users", userRoutes);
+
+import categoryRoutes from './routes/categoryRoutes.js';
+app.use("/api/categories", categoryRoutes);
+
+import serviceRoutes from './routes/serviceRoutes.js';
+app.use("/api/services", serviceRoutes);
+
+import cartRoutes from './routes/cartRoutes.js';
+app.use("/api/cart", cartRoutes);

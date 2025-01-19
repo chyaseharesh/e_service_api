@@ -44,8 +44,8 @@ async function main() {
   // Create categories
   const category1 = await prisma.category.create({
     data: {
-      name: 'Beauty',
-      description: 'Beauty related services',
+        name: 'Beauty',
+        description: 'Beauty related services',
     },
   });
 

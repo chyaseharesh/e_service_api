@@ -1,21 +1,27 @@
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
+import { registerSchema } from "../utils/validators/authValidator.js";
 
 const prisma = new PrismaClient();
 
 // Create a new user
 export const register = async (req, res) => {
+  const validated = registerSchema.safeParse(req.body);
+  if (!validated.success) {
+    return res.status(400).json({
+      error: validated.error.errors.map((e) => ({
+        message: e.message,
+        field: e.path
+      })),
+    });
+  }
+  
   const { firstName, lastName, role, email, phone, password } = req.body;
-
   try {
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Save the user with the hashed password
     const user = await prisma.user.create({
       data: { firstName, lastName, role, email, phone, password: hashedPassword },
     });
-
     res.status(200).json({
       user,
       message: "User created successfully",
